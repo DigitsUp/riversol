@@ -1854,6 +1854,129 @@ function p1SwitchTab(tab) {
 
 </div>
 </div><!-- /p4-body -->
+<script>
+// Sample Journey Profile Data
+const P4_DATA = [
+  {"name":"BERNADETTE Arsenault","email":"bern@rogers.com","sample_date":"2026-01-12","converted":true,"days_to_first_purchase":14,"post_sample_orders":[{"date":"2026-01-26","value":21.85,"items":["Riversol Membership"]},{"date":"2026-02-26","value":154.10,"items":["Exfoliating Glycolic Peel","Anti-Aging Serum"]}],"post_sample_revenue":175.95,"email_opens":[{"date":"2026-04-13T14:45:53+00:00","subject":"Your skin quiz results"},{"date":"2026-04-09T15:23:43+00:00","subject":"Ends at midnight"},{"date":"2026-04-07T15:39:26+00:00","subject":"You received your store credit!"}],"email_clicks":[]},
+  {"name":"Trisha Tidman","email":"ttidman12@gmail.com","sample_date":"2026-01-07","converted":true,"days_to_first_purchase":82,"post_sample_orders":[{"date":"2026-03-30","value":59.85,"items":["Cleansing and Moisturizing Duo"]}],"post_sample_revenue":59.85,"email_opens":[],"email_clicks":[]},
+  {"name":"Roberta Gillis","email":"robertamariagillis@gmail.com","sample_date":"2026-01-12","converted":true,"days_to_first_purchase":72,"post_sample_orders":[{"date":"2026-03-25","value":118.34,"items":["Comprehensive Acne Treatment","FREE Retinol Neck Cream","Anti-Aging Trio Bundle"]}],"post_sample_revenue":118.34,"email_opens":[],"email_clicks":[]},
+  {"name":"Mary Beth Brown","email":"mbrown@jbc.bz","sample_date":"2026-01-09","converted":true,"days_to_first_purchase":48,"post_sample_orders":[{"date":"2026-02-26","value":168.65,"items":["Anti-Aging Trio with Eye Repair Treatment"]}],"post_sample_revenue":168.65,"email_opens":[],"email_clicks":[]},
+  {"name":"Mary Hasbrouck","email":"maryannehasbrouck@gmail.com","sample_date":"2026-01-05","converted":true,"days_to_first_purchase":50,"post_sample_orders":[{"date":"2026-02-24","value":63.22,"items":["Daily Moisturizing Cream","Refreshing Gel Cleanser"]}],"post_sample_revenue":63.22,"email_opens":[],"email_clicks":[]},
+  {"name":"Julie Berg","email":"julie.berg@gmail.com","sample_date":"2026-01-02","converted":true,"days_to_first_purchase":32,"post_sample_orders":[{"date":"2026-02-03","value":78.85,"items":["Retinol Treatment","Riversol Membership"]},{"date":"2026-02-05","value":120.06,"items":["Exfoliating Glycolic Peel","Anti-Aging Serum"]},{"date":"2026-03-27","value":112.00,"items":["FREE Retinol Neck Cream","Micellar Water Makeup Remover","Daily Moisturizing Cream"]}],"post_sample_revenue":310.91,"email_opens":[],"email_clicks":[]},
+  {"name":"Kolene Gudgeon","email":"kolene@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":34,"post_sample_orders":[{"date":"2026-02-09","value":144.89,"items":["Riversol Membership","Moisturizing Concentrate"]}],"post_sample_revenue":144.89,"email_opens":[],"email_clicks":[]},
+  {"name":"Jacqueline du Plessis","email":"jacqueline@gmail.com","sample_date":"2026-01-10","converted":true,"days_to_first_purchase":40,"post_sample_orders":[{"date":"2026-02-19","value":259.72,"items":["Anti-Aging Trio with Eye Repair Treatment","Exfoliating Glycolic Peel (20 Percent Off)","Daily Glow Mineral Sunscreen SPF 50+"]}],"post_sample_revenue":259.72,"email_opens":[],"email_clicks":[]},
+  {"name":"Sandi Plotnikoff","email":"sandi@gmail.com","sample_date":"2026-01-05","converted":true,"days_to_first_purchase":71,"post_sample_orders":[{"date":"2026-03-17","value":130.37,"items":["Anti-Aging Trio with Peel"]}],"post_sample_revenue":130.37,"email_opens":[],"email_clicks":[]},
+  {"name":"Karen Stanton","email":"karen@gmail.com","sample_date":"2026-01-07","converted":true,"days_to_first_purchase":62,"post_sample_orders":[{"date":"2026-03-10","value":252.67,"items":["Retinol Treatment","Anti-Aging Trio with Peel"]}],"post_sample_revenue":252.67,"email_opens":[],"email_clicks":[]},
+  {"name":"Melanie Guilbeault","email":"melanie@gmail.com","sample_date":"2026-01-02","converted":true,"days_to_first_purchase":87,"post_sample_orders":[{"date":"2026-03-30","value":134.47,"items":["FREE Retinol Neck Cream","Anti-Aging Trio Bundle"]}],"post_sample_revenue":134.47,"email_opens":[],"email_clicks":[]},
+  {"name":"Lynn Gauvreau","email":"lynn@gmail.com","sample_date":"2026-01-14","converted":false,"membership_only":true,"days_to_first_purchase":null,"post_sample_orders":[{"date":"2026-01-22","value":21.47,"items":["Riversol Membership"]},{"date":"2026-02-22","value":21.47,"items":["Riversol Membership"]},{"date":"2026-03-22","value":21.47,"items":["Riversol Membership"]}],"post_sample_revenue":64.41,"email_opens":[],"email_clicks":[]},
+  {"name":"Jill Ott","email":"jill@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":26,"post_sample_orders":[{"date":"2026-02-01","value":117.16,"items":["Riversol Membership","Anti-Aging Trio Bundle"]},{"date":"2026-03-01","value":21.47,"items":["Riversol Membership"]},{"date":"2026-03-12","value":50.13,"items":["The Corrector V2"]},{"date":"2026-04-01","value":21.47,"items":["Riversol Membership"]}],"post_sample_revenue":210.23,"email_opens":[],"email_clicks":[]},
+  {"name":"Ijeoma Akobundu","email":"ijeoma@gmail.com","sample_date":"2026-01-05","converted":true,"days_to_first_purchase":29,"post_sample_orders":[{"date":"2026-02-03","value":99.87,"items":["Hydrating Cream Cleanser","Exfoliating Glycolic Peel"]},{"date":"2026-03-03","value":21.47,"items":["Riversol Membership"]}],"post_sample_revenue":121.34,"email_opens":[],"email_clicks":[]},
+  {"name":"Evelyn McLeod","email":"evelyn@gmail.com","sample_date":"2026-01-12","converted":true,"days_to_first_purchase":15,"post_sample_orders":[{"date":"2026-01-27","value":118.22,"items":["Riversol Membership","Anti-Aging Trio Bundle"]},{"date":"2026-02-27","value":21.47,"items":["Riversol Membership"]},{"date":"2026-03-13","value":88.60,"items":["Daily Glow Mineral Sunscreen SPF 50+","Daily Moisturizing Cream"]}],"post_sample_revenue":228.29,"email_opens":[],"email_clicks":[]},
+  {"name":"Kim Orchard","email":"kim@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":25,"post_sample_orders":[{"date":"2026-01-31","value":162.72,"items":["Anti-Aging Trio Bundle"]}],"post_sample_revenue":162.72,"email_opens":[],"email_clicks":[]},
+  {"name":"Terrie Martin","email":"terrie@gmail.com","sample_date":"2026-01-02","converted":true,"days_to_first_purchase":29,"post_sample_orders":[{"date":"2026-01-31","value":105.84,"items":["Cleansing and Moisturizing Duo"]},{"date":"2026-02-25","value":123.17,"items":["Anti-Aging Serum","Eye Repair Treatment"]}],"post_sample_revenue":229.01,"email_opens":[],"email_clicks":[]},
+  {"name":"Rolande LeFave","email":"rolande@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":76,"post_sample_orders":[{"date":"2026-03-23","value":130.18,"items":["Anti-Aging Trio Bundle"]}],"post_sample_revenue":130.18,"email_opens":[],"email_clicks":[]},
+  {"name":"Sheena Healy","email":"sheena@gmail.com","sample_date":"2026-01-08","converted":true,"days_to_first_purchase":61,"post_sample_orders":[{"date":"2026-03-10","value":106.79,"items":["Redness Control Trio Bundle"]}],"post_sample_revenue":106.79,"email_opens":[],"email_clicks":[]},
+  {"name":"Stephanie Lacroix","email":"stephanie@gmail.com","sample_date":"2026-01-13","converted":true,"days_to_first_purchase":19,"post_sample_orders":[{"date":"2026-02-01","value":366.08,"items":["Travel Ready Anti-Aging Trio","Retinol Neck Cream"]},{"date":"2026-02-25","value":92.85,"items":["Travel Ready Anti-Aging Trio","Hand Balm"]}],"post_sample_revenue":458.93,"email_opens":[],"email_clicks":[]}
+];
+
+function p4ObfuscateEmail(email) {
+  const [local, domain] = email.split('@');
+  return local.charAt(0) + '***@' + domain;
+}
+function p4FormatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' });
+}
+function p4TitleCase(str) {
+  return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+function p4IsMembOnly(items) {
+  return items.every(i => i.toLowerCase().includes('riversol membership'));
+}
+function p4IsProductOrder(items) {
+  return items.some(i => !i.toLowerCase().includes('riversol membership'));
+}
+function p4BuildEvents(profile) {
+  const events = [];
+  events.push({ type:'sample', date:profile.sample_date, isSample:true, isFirstPurchase:false });
+  let firstProductFound = false;
+  profile.post_sample_orders.forEach(order => {
+    const membership = p4IsMembOnly(order.items);
+    const isProduct = p4IsProductOrder(order.items);
+    events.push({ type: membership ? 'membership' : 'purchase', date: order.date, value: order.value, items: order.items, isFirstPurchase: isProduct && !firstProductFound, isSample: false });
+    if (isProduct && !firstProductFound) firstProductFound = true;
+  });
+  profile.email_opens.forEach(e => events.push({ type:'email_open', date:e.date, subject:e.subject, isSample:false, isFirstPurchase:false }));
+  profile.email_clicks.forEach(e => events.push({ type:'email_click', date:e.date, subject:e.subject, isSample:false, isFirstPurchase:false }));
+  events.sort((a,b) => new Date(a.date) - new Date(b.date));
+  return events;
+}
+function p4RenderTimeline(events, profile) {
+  return events.map(ev => {
+    let dotClass='grey', chipClass='grey', icon='', label='', detail='';
+    if (ev.type==='sample') { dotClass='purple'; chipClass='purple'; icon='📦'; label='Sample Order'; detail='Free sample'; }
+    else if (ev.type==='purchase') { dotClass='green'; chipClass='green'; icon='💳'; label='Product Purchase'; detail='$'+ev.value.toFixed(2)+' CAD - '+ev.items.slice(0,5).join(', '); }
+    else if (ev.type==='membership') { dotClass='grey'; chipClass='grey'; icon='🔄'; label='Riversol Membership Renewal'; detail='$'+ev.value.toFixed(2)+' CAD'; }
+    else if (ev.type==='email_open') { dotClass='blue'; chipClass='blue'; icon='📧'; label='Email Opened'; detail=ev.subject; }
+    else if (ev.type==='email_click') { dotClass='cyan'; chipClass='cyan'; icon='🖱'; label='Email Clicked'; detail=ev.subject; }
+    const markerHtml = ev.isSample ? '<div class="timeline-marker">Sample ordered</div>' : ev.isFirstPurchase ? '<div class="timeline-marker">First purchase -- Day '+profile.days_to_first_purchase+'</div>' : '';
+    return '<div class="timeline-event"><div class="timeline-dot '+dotClass+'"></div><div class="timeline-date">'+p4FormatDate(ev.date)+'</div><div class="timeline-chip '+chipClass+'"><span class="timeline-chip-icon">'+icon+'</span><div class="timeline-chip-body"><span class="timeline-chip-label">'+label+'</span>'+(detail ? '<span class="timeline-chip-detail">'+detail+'</span>' : '')+'</div></div>'+markerHtml+'</div>';
+  }).join('');
+}
+function p4RenderProfiles() {
+  const sorted = [...P4_DATA.filter(p => p.converted).sort((a,b) => (a.days_to_first_purchase||999)-(b.days_to_first_purchase||999)), ...P4_DATA.filter(p => !p.converted)];
+  const container = document.getElementById('p4-profiles-container');
+  if (!container) return;
+  sorted.forEach((profile, idx) => {
+    const name = p4TitleCase(profile.name);
+    const initials = name.split(' ').map(p => p[0]).slice(0,2).join('');
+    const isMembOnly = profile.membership_only === true;
+    const events = p4BuildEvents(profile);
+    const daysText = profile.days_to_first_purchase != null ? 'Day '+profile.days_to_first_purchase : null;
+    const revenueText = '$'+profile.post_sample_revenue.toFixed(2)+' CAD';
+    const card = document.createElement('div');
+    card.className = 'profile-card';
+    card.innerHTML = '<div class="profile-header" onclick="this.closest(\'.profile-card\').classList.toggle(\'open\')"><div class="profile-avatar '+(isMembOnly ? 'membership' : '')+'">'+initials+'</div><div class="profile-info"><div class="profile-name">'+name+'</div><div class="profile-email">'+p4ObfuscateEmail(profile.email)+'</div></div><div class="profile-stats">'+(isMembOnly ? '<span class="badge membership-only">Membership Only</span>' : '<span class="badge converted">Converted</span>')+(daysText ? '<span class="stat-pill">'+daysText+'</span>' : '')+'<span class="stat-pill revenue">'+revenueText+'</span></div><div class="profile-chevron">+</div></div><div class="timeline"><div class="timeline-inner">'+p4RenderTimeline(events, profile)+'</div></div>';
+    container.appendChild(card);
+  });
+}
+p4RenderProfiles();
+</script>
+
+    </div>
+  </div>
+
+</div><!-- /hub-main -->
+
+<!-- ===== HUB SCRIPT ===== -->
+<script>
+document.getElementById('hub-pw').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') hubUnlock();
+});
+
+function hubUnlock() {
+  const val = document.getElementById('hub-pw').value.trim().toUpperCase();
+  if (val === 'RIVERS') {
+    document.getElementById('hub-gate').classList.add('hidden');
+    document.getElementById('hub-main').classList.add('visible');
+    window.scrollTo(0, 0);
+  } else {
+    document.getElementById('hub-gate-error').textContent = 'Incorrect password. Please try again.';
+    document.getElementById('hub-pw').value = '';
+    setTimeout(() => { document.getElementById('hub-gate-error').textContent = ''; }, 2000);
+  }
+}
+
+function hubTab(name, btn) {
+  document.querySelectorAll('.hub-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.hub-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-' + name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+
+
 <div id="pane-segment-insights" class="hub-pane">
 <style>
   /* ── Segment Insights Tab – Scoped Styles ─────────────────────────────── */
@@ -2626,129 +2749,5 @@ function p1SwitchTab(tab) {
 </div><!-- /#tab-segment-insights -->
 
 </div>
-
-
-<script>
-// Sample Journey Profile Data
-const P4_DATA = [
-  {"name":"BERNADETTE Arsenault","email":"bern@rogers.com","sample_date":"2026-01-12","converted":true,"days_to_first_purchase":14,"post_sample_orders":[{"date":"2026-01-26","value":21.85,"items":["Riversol Membership"]},{"date":"2026-02-26","value":154.10,"items":["Exfoliating Glycolic Peel","Anti-Aging Serum"]}],"post_sample_revenue":175.95,"email_opens":[{"date":"2026-04-13T14:45:53+00:00","subject":"Your skin quiz results"},{"date":"2026-04-09T15:23:43+00:00","subject":"Ends at midnight"},{"date":"2026-04-07T15:39:26+00:00","subject":"You received your store credit!"}],"email_clicks":[]},
-  {"name":"Trisha Tidman","email":"ttidman12@gmail.com","sample_date":"2026-01-07","converted":true,"days_to_first_purchase":82,"post_sample_orders":[{"date":"2026-03-30","value":59.85,"items":["Cleansing and Moisturizing Duo"]}],"post_sample_revenue":59.85,"email_opens":[],"email_clicks":[]},
-  {"name":"Roberta Gillis","email":"robertamariagillis@gmail.com","sample_date":"2026-01-12","converted":true,"days_to_first_purchase":72,"post_sample_orders":[{"date":"2026-03-25","value":118.34,"items":["Comprehensive Acne Treatment","FREE Retinol Neck Cream","Anti-Aging Trio Bundle"]}],"post_sample_revenue":118.34,"email_opens":[],"email_clicks":[]},
-  {"name":"Mary Beth Brown","email":"mbrown@jbc.bz","sample_date":"2026-01-09","converted":true,"days_to_first_purchase":48,"post_sample_orders":[{"date":"2026-02-26","value":168.65,"items":["Anti-Aging Trio with Eye Repair Treatment"]}],"post_sample_revenue":168.65,"email_opens":[],"email_clicks":[]},
-  {"name":"Mary Hasbrouck","email":"maryannehasbrouck@gmail.com","sample_date":"2026-01-05","converted":true,"days_to_first_purchase":50,"post_sample_orders":[{"date":"2026-02-24","value":63.22,"items":["Daily Moisturizing Cream","Refreshing Gel Cleanser"]}],"post_sample_revenue":63.22,"email_opens":[],"email_clicks":[]},
-  {"name":"Julie Berg","email":"julie.berg@gmail.com","sample_date":"2026-01-02","converted":true,"days_to_first_purchase":32,"post_sample_orders":[{"date":"2026-02-03","value":78.85,"items":["Retinol Treatment","Riversol Membership"]},{"date":"2026-02-05","value":120.06,"items":["Exfoliating Glycolic Peel","Anti-Aging Serum"]},{"date":"2026-03-27","value":112.00,"items":["FREE Retinol Neck Cream","Micellar Water Makeup Remover","Daily Moisturizing Cream"]}],"post_sample_revenue":310.91,"email_opens":[],"email_clicks":[]},
-  {"name":"Kolene Gudgeon","email":"kolene@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":34,"post_sample_orders":[{"date":"2026-02-09","value":144.89,"items":["Riversol Membership","Moisturizing Concentrate"]}],"post_sample_revenue":144.89,"email_opens":[],"email_clicks":[]},
-  {"name":"Jacqueline du Plessis","email":"jacqueline@gmail.com","sample_date":"2026-01-10","converted":true,"days_to_first_purchase":40,"post_sample_orders":[{"date":"2026-02-19","value":259.72,"items":["Anti-Aging Trio with Eye Repair Treatment","Exfoliating Glycolic Peel (20 Percent Off)","Daily Glow Mineral Sunscreen SPF 50+"]}],"post_sample_revenue":259.72,"email_opens":[],"email_clicks":[]},
-  {"name":"Sandi Plotnikoff","email":"sandi@gmail.com","sample_date":"2026-01-05","converted":true,"days_to_first_purchase":71,"post_sample_orders":[{"date":"2026-03-17","value":130.37,"items":["Anti-Aging Trio with Peel"]}],"post_sample_revenue":130.37,"email_opens":[],"email_clicks":[]},
-  {"name":"Karen Stanton","email":"karen@gmail.com","sample_date":"2026-01-07","converted":true,"days_to_first_purchase":62,"post_sample_orders":[{"date":"2026-03-10","value":252.67,"items":["Retinol Treatment","Anti-Aging Trio with Peel"]}],"post_sample_revenue":252.67,"email_opens":[],"email_clicks":[]},
-  {"name":"Melanie Guilbeault","email":"melanie@gmail.com","sample_date":"2026-01-02","converted":true,"days_to_first_purchase":87,"post_sample_orders":[{"date":"2026-03-30","value":134.47,"items":["FREE Retinol Neck Cream","Anti-Aging Trio Bundle"]}],"post_sample_revenue":134.47,"email_opens":[],"email_clicks":[]},
-  {"name":"Lynn Gauvreau","email":"lynn@gmail.com","sample_date":"2026-01-14","converted":false,"membership_only":true,"days_to_first_purchase":null,"post_sample_orders":[{"date":"2026-01-22","value":21.47,"items":["Riversol Membership"]},{"date":"2026-02-22","value":21.47,"items":["Riversol Membership"]},{"date":"2026-03-22","value":21.47,"items":["Riversol Membership"]}],"post_sample_revenue":64.41,"email_opens":[],"email_clicks":[]},
-  {"name":"Jill Ott","email":"jill@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":26,"post_sample_orders":[{"date":"2026-02-01","value":117.16,"items":["Riversol Membership","Anti-Aging Trio Bundle"]},{"date":"2026-03-01","value":21.47,"items":["Riversol Membership"]},{"date":"2026-03-12","value":50.13,"items":["The Corrector V2"]},{"date":"2026-04-01","value":21.47,"items":["Riversol Membership"]}],"post_sample_revenue":210.23,"email_opens":[],"email_clicks":[]},
-  {"name":"Ijeoma Akobundu","email":"ijeoma@gmail.com","sample_date":"2026-01-05","converted":true,"days_to_first_purchase":29,"post_sample_orders":[{"date":"2026-02-03","value":99.87,"items":["Hydrating Cream Cleanser","Exfoliating Glycolic Peel"]},{"date":"2026-03-03","value":21.47,"items":["Riversol Membership"]}],"post_sample_revenue":121.34,"email_opens":[],"email_clicks":[]},
-  {"name":"Evelyn McLeod","email":"evelyn@gmail.com","sample_date":"2026-01-12","converted":true,"days_to_first_purchase":15,"post_sample_orders":[{"date":"2026-01-27","value":118.22,"items":["Riversol Membership","Anti-Aging Trio Bundle"]},{"date":"2026-02-27","value":21.47,"items":["Riversol Membership"]},{"date":"2026-03-13","value":88.60,"items":["Daily Glow Mineral Sunscreen SPF 50+","Daily Moisturizing Cream"]}],"post_sample_revenue":228.29,"email_opens":[],"email_clicks":[]},
-  {"name":"Kim Orchard","email":"kim@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":25,"post_sample_orders":[{"date":"2026-01-31","value":162.72,"items":["Anti-Aging Trio Bundle"]}],"post_sample_revenue":162.72,"email_opens":[],"email_clicks":[]},
-  {"name":"Terrie Martin","email":"terrie@gmail.com","sample_date":"2026-01-02","converted":true,"days_to_first_purchase":29,"post_sample_orders":[{"date":"2026-01-31","value":105.84,"items":["Cleansing and Moisturizing Duo"]},{"date":"2026-02-25","value":123.17,"items":["Anti-Aging Serum","Eye Repair Treatment"]}],"post_sample_revenue":229.01,"email_opens":[],"email_clicks":[]},
-  {"name":"Rolande LeFave","email":"rolande@gmail.com","sample_date":"2026-01-06","converted":true,"days_to_first_purchase":76,"post_sample_orders":[{"date":"2026-03-23","value":130.18,"items":["Anti-Aging Trio Bundle"]}],"post_sample_revenue":130.18,"email_opens":[],"email_clicks":[]},
-  {"name":"Sheena Healy","email":"sheena@gmail.com","sample_date":"2026-01-08","converted":true,"days_to_first_purchase":61,"post_sample_orders":[{"date":"2026-03-10","value":106.79,"items":["Redness Control Trio Bundle"]}],"post_sample_revenue":106.79,"email_opens":[],"email_clicks":[]},
-  {"name":"Stephanie Lacroix","email":"stephanie@gmail.com","sample_date":"2026-01-13","converted":true,"days_to_first_purchase":19,"post_sample_orders":[{"date":"2026-02-01","value":366.08,"items":["Travel Ready Anti-Aging Trio","Retinol Neck Cream"]},{"date":"2026-02-25","value":92.85,"items":["Travel Ready Anti-Aging Trio","Hand Balm"]}],"post_sample_revenue":458.93,"email_opens":[],"email_clicks":[]}
-];
-
-function p4ObfuscateEmail(email) {
-  const [local, domain] = email.split('@');
-  return local.charAt(0) + '***@' + domain;
-}
-function p4FormatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' });
-}
-function p4TitleCase(str) {
-  return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-}
-function p4IsMembOnly(items) {
-  return items.every(i => i.toLowerCase().includes('riversol membership'));
-}
-function p4IsProductOrder(items) {
-  return items.some(i => !i.toLowerCase().includes('riversol membership'));
-}
-function p4BuildEvents(profile) {
-  const events = [];
-  events.push({ type:'sample', date:profile.sample_date, isSample:true, isFirstPurchase:false });
-  let firstProductFound = false;
-  profile.post_sample_orders.forEach(order => {
-    const membership = p4IsMembOnly(order.items);
-    const isProduct = p4IsProductOrder(order.items);
-    events.push({ type: membership ? 'membership' : 'purchase', date: order.date, value: order.value, items: order.items, isFirstPurchase: isProduct && !firstProductFound, isSample: false });
-    if (isProduct && !firstProductFound) firstProductFound = true;
-  });
-  profile.email_opens.forEach(e => events.push({ type:'email_open', date:e.date, subject:e.subject, isSample:false, isFirstPurchase:false }));
-  profile.email_clicks.forEach(e => events.push({ type:'email_click', date:e.date, subject:e.subject, isSample:false, isFirstPurchase:false }));
-  events.sort((a,b) => new Date(a.date) - new Date(b.date));
-  return events;
-}
-function p4RenderTimeline(events, profile) {
-  return events.map(ev => {
-    let dotClass='grey', chipClass='grey', icon='', label='', detail='';
-    if (ev.type==='sample') { dotClass='purple'; chipClass='purple'; icon='📦'; label='Sample Order'; detail='Free sample'; }
-    else if (ev.type==='purchase') { dotClass='green'; chipClass='green'; icon='💳'; label='Product Purchase'; detail='$'+ev.value.toFixed(2)+' CAD - '+ev.items.slice(0,5).join(', '); }
-    else if (ev.type==='membership') { dotClass='grey'; chipClass='grey'; icon='🔄'; label='Riversol Membership Renewal'; detail='$'+ev.value.toFixed(2)+' CAD'; }
-    else if (ev.type==='email_open') { dotClass='blue'; chipClass='blue'; icon='📧'; label='Email Opened'; detail=ev.subject; }
-    else if (ev.type==='email_click') { dotClass='cyan'; chipClass='cyan'; icon='🖱'; label='Email Clicked'; detail=ev.subject; }
-    const markerHtml = ev.isSample ? '<div class="timeline-marker">Sample ordered</div>' : ev.isFirstPurchase ? '<div class="timeline-marker">First purchase -- Day '+profile.days_to_first_purchase+'</div>' : '';
-    return '<div class="timeline-event"><div class="timeline-dot '+dotClass+'"></div><div class="timeline-date">'+p4FormatDate(ev.date)+'</div><div class="timeline-chip '+chipClass+'"><span class="timeline-chip-icon">'+icon+'</span><div class="timeline-chip-body"><span class="timeline-chip-label">'+label+'</span>'+(detail ? '<span class="timeline-chip-detail">'+detail+'</span>' : '')+'</div></div>'+markerHtml+'</div>';
-  }).join('');
-}
-function p4RenderProfiles() {
-  const sorted = [...P4_DATA.filter(p => p.converted).sort((a,b) => (a.days_to_first_purchase||999)-(b.days_to_first_purchase||999)), ...P4_DATA.filter(p => !p.converted)];
-  const container = document.getElementById('p4-profiles-container');
-  if (!container) return;
-  sorted.forEach((profile, idx) => {
-    const name = p4TitleCase(profile.name);
-    const initials = name.split(' ').map(p => p[0]).slice(0,2).join('');
-    const isMembOnly = profile.membership_only === true;
-    const events = p4BuildEvents(profile);
-    const daysText = profile.days_to_first_purchase != null ? 'Day '+profile.days_to_first_purchase : null;
-    const revenueText = '$'+profile.post_sample_revenue.toFixed(2)+' CAD';
-    const card = document.createElement('div');
-    card.className = 'profile-card';
-    card.innerHTML = '<div class="profile-header" onclick="this.closest(\'.profile-card\').classList.toggle(\'open\')"><div class="profile-avatar '+(isMembOnly ? 'membership' : '')+'">'+initials+'</div><div class="profile-info"><div class="profile-name">'+name+'</div><div class="profile-email">'+p4ObfuscateEmail(profile.email)+'</div></div><div class="profile-stats">'+(isMembOnly ? '<span class="badge membership-only">Membership Only</span>' : '<span class="badge converted">Converted</span>')+(daysText ? '<span class="stat-pill">'+daysText+'</span>' : '')+'<span class="stat-pill revenue">'+revenueText+'</span></div><div class="profile-chevron">+</div></div><div class="timeline"><div class="timeline-inner">'+p4RenderTimeline(events, profile)+'</div></div>';
-    container.appendChild(card);
-  });
-}
-p4RenderProfiles();
-</script>
-
-    </div>
-  </div>
-
-</div><!-- /hub-main -->
-
-<!-- ===== HUB SCRIPT ===== -->
-<script>
-document.getElementById('hub-pw').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') hubUnlock();
-});
-
-function hubUnlock() {
-  const val = document.getElementById('hub-pw').value.trim().toUpperCase();
-  if (val === 'RIVERS') {
-    document.getElementById('hub-gate').classList.add('hidden');
-    document.getElementById('hub-main').classList.add('visible');
-    window.scrollTo(0, 0);
-  } else {
-    document.getElementById('hub-gate-error').textContent = 'Incorrect password. Please try again.';
-    document.getElementById('hub-pw').value = '';
-    setTimeout(() => { document.getElementById('hub-gate-error').textContent = ''; }, 2000);
-  }
-}
-
-function hubTab(name, btn) {
-  document.querySelectorAll('.hub-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.hub-pane').forEach(p => p.classList.remove('active'));
-  document.getElementById('pane-' + name).classList.add('active');
-  btn.classList.add('active');
-  window.scrollTo(0, 0);
-}
-</script>
-
 </body>
 </html>
