@@ -745,6 +745,139 @@
       .data-table { font-size: 12px; }
       .data-table td, .data-table thead th { padding: 10px 12px; }
     }
+
+    /* ── COMPARE TABLE ──────────────────────────────────────── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      font-size: 14px;
+    }
+    .compare-table th {
+      background: #1C3D5A;
+      color: #fff;
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .compare-table .th-new { background: #2E5F8A; }
+    .compare-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid #EDF2F7;
+      color: #2D3748;
+      vertical-align: middle;
+    }
+    .compare-table tbody tr:nth-child(even) td { background: #F7FAFC; }
+    .compare-table .td-new { color: #1C3D5A; font-weight: 600; }
+    .compare-table .td-win { color: #2E7D32 !important; font-size: 16px; }
+    .compare-table .tr-highlight td { background: #EBF4FF !important; }
+
+    /* ── REVENUE HERO ───────────────────────────────────────── */
+    .revenue-hero {
+      display: flex;
+      gap: 32px;
+      align-items: stretch;
+      background: #1C3D5A;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .rh-left {
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255,255,255,0.15);
+      padding-right: 32px;
+      min-width: 220px;
+    }
+    .rh-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 8px;
+    }
+    .rh-stat {
+      font-size: 34px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .rh-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+    }
+    .rh-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    .rh-insight {
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.85);
+    }
+    .rh-insight strong { color: #fff; }
+
+    /* ── PERFORMANCE EMAIL LIST ──────────────────────────────── */
+    .perf-email-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+    .perf-email-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #fff;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 14px 18px;
+      justify-content: space-between;
+    }
+    .perf-email-row:first-child { border-top: 3px solid #1C3D5A; }
+    .pe-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+      flex: 1;
+    }
+    .pe-day {
+      font-size: 11px;
+      font-weight: 600;
+      color: #718096;
+      background: #EDF2F7;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+    .pe-metrics {
+      display: flex;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+    .pe-metric { text-align: right; }
+    .pem-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #A0AEC0;
+      margin-bottom: 2px;
+    }
+    .pem-value {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1A1A1A;
+      letter-spacing: -0.02em;
+    }
+    .pem-value.green { color: #2E7D32; }
+
   </style>
 </head>
 <body>
@@ -776,161 +909,128 @@
   <div class="container">
     <div class="section-eyebrow">01</div>
     <h2 class="section-title">Sample Journey — Converting Free Trial to First Purchase</h2>
-    <p class="section-intro">Riversol's sample program is a top-of-funnel driver — customers receive a free trial kit and the post-delivery flow is their first real relationship with the brand. We rebuilt the journey from the ground up to create earlier urgency, introduce product-specific framing, and surface the right offer at the right time.</p>
+    <p class="section-intro">Riversol's sample program is one of the most powerful acquisition tools in the business. Every sample recipient is a warm lead — someone who already has the product in hand. We reviewed the original flow, identified what wasn't working, and rebuilt the journey from the ground up.</p>
 
-    <!-- Comparison Cards -->
-    <div class="sub-heading">Side-by-Side Comparison &nbsp;|&nbsp; May 11 – June 24, 2026</div>
-    <div class="comparison-grid">
-      <div class="cmp-card">
-        <div class="cmp-tag">Previous</div>
-        <div class="cmp-name">Old Flow (2025 V2)</div>
-        <div class="cmp-stats">
-          <div>
-            <div class="cmp-stat-label">Recipients</div>
-            <div class="cmp-stat-value">74,852</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Conversions</div>
-            <div class="cmp-stat-value">234</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Conversion Rate</div>
-            <div class="cmp-stat-value">0.31%</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Emails in Flow</div>
-            <div class="cmp-stat-value">~9</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Avg. Open Rate</div>
-            <div class="cmp-stat-value">~45%</div>
-          </div>
-        </div>
+    <!-- What Changed -->
+    <div class="sub-heading">What Changed — Old Flow vs. New Flow</div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Old Flow (2025 V2)</th>
+          <th class="th-new">New Flow (15-Day)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Emails in sequence</td>
+          <td>9 emails</td>
+          <td class="td-new">15 emails</td>
+        </tr>
+        <tr>
+          <td>Welcome offer</td>
+          <td>30% off</td>
+          <td class="td-new">20% off</td>
+        </tr>
+        <tr>
+          <td>When offer appears</td>
+          <td>Day 35</td>
+          <td class="td-new">Day 33</td>
+        </tr>
+        <tr>
+          <td>Product-specific lanes</td>
+          <td>No</td>
+          <td class="td-new">Yes — Trio, DMC, Singles</td>
+        </tr>
+        <tr>
+          <td>High-intent behavioral branching</td>
+          <td>No</td>
+          <td class="td-new">Yes — triggers on product link clicks</td>
+        </tr>
+        <tr>
+          <td>Entry-level product framing</td>
+          <td>No</td>
+          <td class="td-new">Yes — singles starting at $18</td>
+        </tr>
+        <tr class="tr-highlight">
+          <td><strong>Revenue generated</strong></td>
+          <td><strong>CA$2,915</strong></td>
+          <td class="td-new td-win"><strong>CA$9,468</strong></td>
+        </tr>
+        <tr class="tr-highlight">
+          <td><strong>Conversion rate</strong></td>
+          <td><strong>0.31%</strong></td>
+          <td class="td-new"><strong>0.29%</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Headline Revenue Callout -->
+    <div class="revenue-hero">
+      <div class="rh-left">
+        <div class="rh-eyebrow">The Result</div>
+        <div class="rh-stat">3.25x More Revenue</div>
+        <div class="rh-sub">CA$9,468 vs. CA$2,915</div>
       </div>
-      <div class="cmp-card active">
-        <div class="cmp-tag">Current</div>
-        <div class="cmp-name">New Flow (15-Day Structure)</div>
-        <div class="cmp-stats">
-          <div>
-            <div class="cmp-stat-label">Recipients</div>
-            <div class="cmp-stat-value highlight">60,217</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Conversions</div>
-            <div class="cmp-stat-value highlight">177</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Conversion Rate</div>
-            <div class="cmp-stat-value highlight">0.29%</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Emails in Flow</div>
-            <div class="cmp-stat-value highlight">15+</div>
-          </div>
-          <div>
-            <div class="cmp-stat-label">Avg. Open Rate</div>
-            <div class="cmp-stat-value highlight">~47%</div>
-          </div>
-        </div>
+      <div class="rh-right">
+        <div class="rh-insight">The new flow offers a <strong>smaller discount (20% vs. 30%)</strong> and generates 3.25x the revenue at the same conversion rate. That means the rebuilt structure is converting higher-intent buyers who spend more — without giving away additional margin. Same CVR. Better customers. Less cost.</div>
       </div>
     </div>
 
-    <!-- High-Intent Branch — Star Callout -->
-    <div class="sub-heading">High-Intent Branch — Behavioral Targeting</div>
-    <div class="star-card">
-      <div class="sc-eyebrow">The Star of the New Flow</div>
-      <div class="sc-title">When a recipient clicks a product link, they enter a tailored follow-up sequence — and the results are 3–6x the performance of standard emails.</div>
-      <div class="sc-grid">
-        <div>
-          <div class="sc-stat-label">Trio + Peel (R) — RPU</div>
-          <div class="sc-stat-value">$0.89</div>
-          <div class="sc-stat-note">7.3% click rate</div>
-        </div>
-        <div>
-          <div class="sc-stat-label">Continue Your Results (R) — RPU</div>
-          <div class="sc-stat-value">$1.19</div>
-          <div class="sc-stat-note">Highest RPU in flow</div>
-        </div>
-        <div>
-          <div class="sc-stat-label">vs. Standard Email RPU</div>
-          <div class="sc-stat-value">~$0.20</div>
-          <div class="sc-stat-note">Baseline for comparison</div>
-        </div>
-        <div>
-          <div class="sc-stat-label">Performance Uplift</div>
-          <div class="sc-stat-value">3–6x</div>
-          <div class="sc-stat-note">RPU over standard</div>
+    <!-- Top Performing Emails -->
+    <div class="sub-heading">Top Performing Emails — New Flow</div>
+    <div class="perf-email-list">
+      <div class="perf-email-row">
+        <div class="pe-name">"Trial Almost Complete — Trio + Peel" <span class="pe-day">Day 27</span></div>
+        <div class="pe-metrics">
+          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">5,764</span></div>
+          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">52.7%</span></div>
+          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">5.7%</span></div>
+          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">34</span></div>
         </div>
       </div>
-      <div class="sc-note">Behavioral branching is working. The product-specific lanes reward intent and close the gap between engagement and purchase.</div>
-    </div>
-
-    <!-- What's Working -->
-    <div class="sub-heading">What's Working</div>
-    <div class="cards-grid-2" style="gap: 14px;">
-      <div class="working-card">
-        <div class="wc-title">"Your Kit Has Arrived" — Day 15</div>
-        <div class="wc-desc">The earliest brand touchpoint in the new flow is landing. Highest open rate in the entire sequence.</div>
-        <div class="wc-chips">
-          <span class="chip-green">58.1% Open Rate</span>
-          <span class="chip-blue">Highest in Flow</span>
+      <div class="perf-email-row">
+        <div class="pe-name">"Consistency Beats Complexity" <span class="pe-day">Day 21</span></div>
+        <div class="pe-metrics">
+          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">7,243</span></div>
+          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">50.5%</span></div>
+          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">3.5%</span></div>
+          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">31</span></div>
         </div>
       </div>
-      <div class="working-card">
-        <div class="wc-title">"Consistency Beats Complexity" — Day 21</div>
-        <div class="wc-desc">Strong open and click performance with 31 conversions at $0.21 RPU across 7,243 recipients.</div>
-        <div class="wc-chips">
-          <span class="chip-green">50.5% Open</span>
-          <span class="chip-green">3.5% Click</span>
-          <span class="chip-green">$0.21 RPU</span>
+      <div class="perf-email-row">
+        <div class="pe-name">"Singles Starting at $18" <span class="pe-day">Day 30</span></div>
+        <div class="pe-metrics">
+          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">4,062</span></div>
+          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">43.4%</span></div>
+          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">3.5%</span></div>
+          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">17</span></div>
         </div>
       </div>
-      <div class="working-card">
-        <div class="wc-title">"Trial Almost Complete — Trio + Peel" — Day 27</div>
-        <div class="wc-desc">Best-converting standard email in the flow — 34 conversions from 5,764 recipients.</div>
-        <div class="wc-chips">
-          <span class="chip-green">52.7% Open</span>
-          <span class="chip-green">5.7% Click</span>
-          <span class="chip-green">$0.20 RPU</span>
-        </div>
-      </div>
-      <div class="working-card">
-        <div class="wc-title">"Singles Starting at $18" — Day 30</div>
-        <div class="wc-desc">Entry-level product framing is generating real conversions — 17 from 4,062 recipients. The lower price point is working for this audience.</div>
-        <div class="wc-chips">
-          <span class="chip-green">43.4% Open</span>
-          <span class="chip-green">3.5% Click</span>
-          <span class="chip-green">$0.28 RPU</span>
+      <div class="perf-email-row">
+        <div class="pe-name">"Final Hours to Save" <span class="pe-day">Day 36</span></div>
+        <div class="pe-metrics">
+          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">3,416</span></div>
+          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">40.2%</span></div>
+          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">1.8%</span></div>
+          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">17</span></div>
         </div>
       </div>
     </div>
 
     <!-- Optimizing -->
-    <div class="sub-heading">What We're Optimizing</div>
-    <div class="cards-grid-2" style="gap: 14px;">
-      <div class="optimizing-card">
-        <div class="oc-title">"Not Sure What's Right" — Day 40</div>
-        <div class="oc-desc">Late-stage emails are losing momentum at 1.0% click and $0.05 RPU. Watching for patterns and evaluating angle refresh.</div>
-      </div>
-      <div class="optimizing-card">
-        <div class="oc-title">Product-Specific Day 30 Emails (Concentrate, Lightweight Lotion)</div>
-        <div class="oc-desc">Zero conversions at this point — the angle may need adjustment. Monitoring as volume builds.</div>
-      </div>
+    <div class="optimizing-card" style="margin-top:24px;">
+      <div class="oc-title">Still Optimizing — Late-Stage Emails (Day 40+)</div>
+      <div class="oc-desc">Engagement drops in the final stretch. We're evaluating angle and timing adjustments to recover momentum at this stage before the flow hands off to Winback.</div>
     </div>
 
-    <div class="callout-insight" style="margin-top: 20px;">
-      <div class="ci-label">Learning Applied</div>
-      <div class="ci-text">The old flow's Email #4 (30% off) remains its strongest discount email at $0.52 RPU and 6.1% click rate. We're applying this offer sequencing insight directly to the new flow's discount timing strategy.</div>
-    </div>
-
-    <!-- Overall Take -->
-    <div class="overall-take">
-      <div class="ot-label">Overall Assessment</div>
-      <p>The new flow is performing at parity with the old flow in conversion rate (0.29% vs. 0.31%) with significantly more structural sophistication — product-specific lanes, high-intent behavioral branching, and earlier engagement. The behavioral branches are outperforming general emails by 3–6x on RPU. As volume builds through the new flow's longer structure, we expect the gap to widen in its favor.</p>
+    <!-- Coming Next -->
+    <div class="callout-insight" style="margin-top:20px;">
+      <div class="ci-label">Coming Next</div>
+      <div class="ci-text">Buyer behavior deep-dive: time-to-first-purchase and average order value comparison between old and new flow customers. This will confirm whether the new flow is attracting higher-value buyers — and quantify the full margin advantage of the smaller discount.</div>
     </div>
   </div>
 </section>
-
 
 <!-- ══════════════════════════════════════════════════════════
      SECTION 02 — Review Follow-up
