@@ -941,12 +941,23 @@
     </table>
 
     <!-- Headline Revenue Callout -->
-    <div class="revenue-hero">
-      <div class="rh-left">
-        <div class="rh-eyebrow">New Flow — Live May 11, 2026</div>
-        <div class="rh-stat">46% Avg. Open Rate</div>
-        <div class="rh-sub">60,217 recipients &nbsp;|&nbsp; 177 conversions</div>
+    <div style="display:flex;gap:16px;margin-bottom:32px;">
+      <div style="flex:1;background:#1C3D5A;border-radius:12px;padding:28px 24px;text-align:center;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Recipients</div>
+        <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1;">60,217</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px;">May 11 – Jun 24, 2026</div>
       </div>
+      <div style="flex:1;background:#1C3D5A;border-radius:12px;padding:28px 24px;text-align:center;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Conversions</div>
+        <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1;">177</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px;">0.29% conversion rate</div>
+      </div>
+      <div style="flex:1;background:#1C3D5A;border-radius:12px;padding:28px 24px;text-align:center;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Avg. Open Rate</div>
+        <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1;">46%</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px;">Across all emails in flow</div>
+      </div>
+    </div>
       <div class="rh-right">
         <div class="rh-insight">The rebuilt 15-day flow is engaging sample customers earlier and more specifically than the previous version — with product-focused emails starting Day 15 and a structured path to conversion by Day 33. Open rates are holding strong across the entire sequence, and the trial completion window (Days 21–29) is where the majority of conversions are happening.</div>
       </div>
@@ -958,46 +969,56 @@
 
     <!-- Top Performing Emails -->
     <div class="sub-heading">Top Performing Emails — New Flow</div>
-    <div class="perf-email-list">
-      <div class="perf-email-row">
-        <div class="pe-name">"Trial Almost Complete — Trio + Peel" <span class="pe-day">Day 27</span></div>
-        <div class="pe-metrics">
-          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">5,764</span></div>
-          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">52.7%</span></div>
-          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">5.7%</span></div>
-          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">34</span></div>
-        </div>
-      </div>
-      <div class="perf-email-row">
-        <div class="pe-name">"Consistency Beats Complexity" <span class="pe-day">Day 21</span></div>
-        <div class="pe-metrics">
-          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">7,243</span></div>
-          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">50.5%</span></div>
-          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">3.5%</span></div>
-          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">31</span></div>
-        </div>
-      </div>
-      <div class="perf-email-row">
-        <div class="pe-name">"Singles Starting at $18" <span class="pe-day">Day 30</span></div>
-        <div class="pe-metrics">
-          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">4,062</span></div>
-          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">43.4%</span></div>
-          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">3.5%</span></div>
-          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">17</span></div>
-        </div>
-      </div>
-      <div class="perf-email-row">
-        <div class="pe-name">"Final Hours to Save" <span class="pe-day">Day 36</span></div>
-        <div class="pe-metrics">
-          <div class="pe-metric"><span class="pem-label">Recipients</span><span class="pem-value">3,416</span></div>
-          <div class="pe-metric"><span class="pem-label">Open Rate</span><span class="pem-value">40.2%</span></div>
-          <div class="pe-metric"><span class="pem-label">Click Rate</span><span class="pem-value green">1.8%</span></div>
-          <div class="pe-metric"><span class="pem-label">Conversions</span><span class="pem-value green">17</span></div>
-        </div>
-      </div>
-    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:24px;font-size:14px;">
+      <thead>
+        <tr style="background:#F0F4F8;">
+          <th style="padding:10px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#4A5568;">Email</th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#4A5568;">Recipients</th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#4A5568;">Open Rate</th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#4A5568;">Click Rate</th>
+          <th style="padding:10px 14px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#4A5568;">Conversions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #EDF2F7;">
+          <td style="padding:12px 14px;color:#1A1A1A;font-weight:600;">"Your Kit Has Arrived" <span style="font-size:11px;background:#EDF2F7;padding:2px 6px;border-radius:4px;color:#718096;font-weight:400;margin-left:4px;">Day 15</span></td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">8,864</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#2E7D32;">58.1%</td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">2.1%</td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">4</td>
+        </tr>
+        <tr style="border-bottom:1px solid #EDF2F7;background:#FAFAFA;">
+          <td style="padding:12px 14px;color:#1A1A1A;font-weight:600;">"Consistency Beats Complexity" <span style="font-size:11px;background:#EDF2F7;padding:2px 6px;border-radius:4px;color:#718096;font-weight:400;margin-left:4px;">Day 21</span></td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">7,243</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#2E7D32;">50.5%</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#2E7D32;">3.5%</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#1C3D5A;">31</td>
+        </tr>
+        <tr style="border-bottom:1px solid #EDF2F7;">
+          <td style="padding:12px 14px;color:#1A1A1A;font-weight:600;">"Trial Almost Complete — Trio + Peel" <span style="font-size:11px;background:#EDF2F7;padding:2px 6px;border-radius:4px;color:#718096;font-weight:400;margin-left:4px;">Day 27</span></td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">5,764</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#2E7D32;">52.7%</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#2E7D32;">5.7%</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#1C3D5A;">34</td>
+        </tr>
+        <tr style="border-bottom:1px solid #EDF2F7;background:#FAFAFA;">
+          <td style="padding:12px 14px;color:#1A1A1A;font-weight:600;">"Continue Your Results" <span style="font-size:11px;background:#EDF2F7;padding:2px 6px;border-radius:4px;color:#718096;font-weight:400;margin-left:4px;">Day 33</span></td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">3,358</td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">42.4%</td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">2.4%</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#1C3D5A;">12</td>
+        </tr>
+        <tr style="border-bottom:1px solid #EDF2F7;">
+          <td style="padding:12px 14px;color:#1A1A1A;font-weight:600;">"Final Hours to Save" <span style="font-size:11px;background:#EDF2F7;padding:2px 6px;border-radius:4px;color:#718096;font-weight:400;margin-left:4px;">Day 36</span></td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">3,416</td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">40.2%</td>
+          <td style="padding:12px 14px;text-align:center;color:#4A5568;">1.8%</td>
+          <td style="padding:12px 14px;text-align:center;font-weight:700;color:#1C3D5A;">17</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <!-- Optimizing -->
+        <!-- Optimizing -->
     <div class="optimizing-card" style="margin-top:24px;">
       <div class="oc-title">Still Optimizing — Late-Stage Emails (Day 40+)</div>
       <div class="oc-desc">Engagement drops in the final stretch. We're evaluating angle and timing adjustments to recover momentum at this stage before the flow hands off to Winback.</div>
