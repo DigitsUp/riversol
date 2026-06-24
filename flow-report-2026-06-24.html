@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riversol x DigitsUp — Flow Performance Review | June 24, 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: #FAFAFA;
+      color: #1A1A1A;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────── */
+    .report-header {
+      background: #1C3D5A;
+      padding: 48px 0 44px;
+    }
+    .report-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+    }
+    .header-agency {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 12px;
+    }
+    .header-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .header-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+    }
+    .header-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .header-meta .meta-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 4px;
+    }
+    .header-meta .meta-date {
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+    }
+    .header-meta .meta-scope {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    .accent-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #4A9FD4 0%, #2E7D32 60%, #B45309 100%);
+    }
+
+    /* ── SECTION ────────────────────────────────────────────── */
+    .report-section {
+      padding: 60px 0 52px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(28,61,90,0.45);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: #1C3D5A;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-intro {
+      font-size: 15px;
+      color: #4A5568;
+      line-height: 1.75;
+      max-width: 760px;
+      margin-bottom: 36px;
+    }
+    .sub-heading {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1C3D5A;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin: 36px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid #E2E8F0;
+    }
+
+    /* ── COMPARISON CARDS ───────────────────────────────────── */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+    .cmp-card {
+      background: #F5F7FA;
+      border-radius: 10px;
+      padding: 28px 32px;
+      border: 1.5px solid #E2E8F0;
+    }
+    .cmp-card.active {
+      background: #EBF3FA;
+      border-color: #1C3D5A;
+    }
+    .cmp-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background: #E2E8F0;
+      color: #4A5568;
+    }
+    .cmp-card.active .cmp-tag {
+      background: #1C3D5A;
+      color: white;
+    }
+    .cmp-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 20px;
+    }
+    .cmp-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 20px;
+    }
+    .cmp-stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #718096;
+      margin-bottom: 3px;
+    }
+    .cmp-stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1A1A1A;
+      letter-spacing: -0.025em;
+      line-height: 1;
+    }
+    .cmp-stat-value.highlight {
+      color: #1C3D5A;
+    }
+    .cmp-stat-sub {
+      font-size: 11px;
+      color: #9CA3AF;
+      margin-top: 2px;
+    }
+
+    /* ── WORKING / OPTIMIZING CARDS ─────────────────────────── */
+    .cards-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cards-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    .working-card {
+      background: #F0FBF4;
+      border-left: 4px solid #2E7D32;
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+    }
+    .working-card .wc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1B4D28;
+      margin-bottom: 6px;
+    }
+    .working-card .wc-desc {
+      font-size: 13px;
+      color: #2D5A3D;
+      line-height: 1.55;
+    }
+    .working-card .wc-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .chip-green {
+      background: #DCFCE7;
+      color: #166534;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+    .chip-blue {
+      background: #DBEAFE;
+      color: #1C3D5A;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+
+    .optimizing-card {
+      background: #FFFBF5;
+      border-left: 4px solid #B45309;
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+    }
+    .optimizing-card .oc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #7C3A03;
+      margin-bottom: 6px;
+    }
+    .optimizing-card .oc-desc {
+      font-size: 13px;
+      color: #78400B;
+      line-height: 1.55;
+    }
+    .chip-amber {
+      background: #FEF3C7;
+      color: #92400E;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+
+    /* Star / featured card */
+    .star-card {
+      background: #1C3D5A;
+      border-radius: 10px;
+      padding: 26px 28px;
+      color: white;
+      margin-bottom: 24px;
+    }
+    .star-card .sc-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 8px;
+    }
+    .star-card .sc-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .star-card .sc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .star-card .sc-stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+    }
+    .star-card .sc-stat-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #7FBCEF;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .star-card .sc-stat-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 2px;
+    }
+    .star-card .sc-note {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      margin-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 14px;
+    }
+
+    /* ── CALLOUTS ───────────────────────────────────────────── */
+    .callout-insight {
+      background: #EBF3FA;
+      border-left: 4px solid #1C3D5A;
+      border-radius: 0 8px 8px 0;
+      padding: 18px 24px;
+      margin-bottom: 20px;
+    }
+    .callout-insight .ci-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #1C3D5A;
+      margin-bottom: 6px;
+    }
+    .callout-insight .ci-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1A2D3D;
+      line-height: 1.65;
+    }
+
+    .callout-action {
+      background: #FFFBF0;
+      border-left: 4px solid #B45309;
+      border-radius: 0 8px 8px 0;
+      padding: 18px 24px;
+      margin-bottom: 20px;
+    }
+    .callout-action .ca-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #B45309;
+      margin-bottom: 6px;
+    }
+    .callout-action .ca-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #5C2D00;
+      line-height: 1.65;
+    }
+
+    /* ── HERO STAT ──────────────────────────────────────────── */
+    .hero-stat-block {
+      background: #1C3D5A;
+      border-radius: 12px;
+      padding: 36px 44px;
+      display: flex;
+      align-items: center;
+      gap: 44px;
+      margin-bottom: 36px;
+    }
+    .hero-number {
+      font-size: 64px;
+      font-weight: 900;
+      color: #7FBCEF;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .hero-divider {
+      width: 1px;
+      height: 64px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+    .hero-text .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 8px;
+    }
+    .hero-text .hero-headline {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .hero-text .hero-vs {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── TABLES ─────────────────────────────────────────────── */
+    .data-table-wrap {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      border: 1px solid #E2E8F0;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .data-table thead tr {
+      background: #1C3D5A;
+    }
+    .data-table thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      white-space: nowrap;
+    }
+    .data-table tbody tr:nth-child(even) { background: #F7F9FC; }
+    .data-table tbody tr:nth-child(odd) { background: white; }
+    .data-table tbody tr.row-highlight { background: #EBF3FA; }
+    .data-table tbody tr.row-total { background: #E8EDF4; font-weight: 700; }
+    .data-table tbody tr.row-leader { background: #EBF3FA; }
+    .data-table td {
+      padding: 11px 16px;
+      color: #1A1A1A;
+      border-bottom: 1px solid #EEF1F5;
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .td-green { color: #2E7D32; font-weight: 700; }
+    .td-amber { color: #B45309; font-weight: 600; }
+    .td-strong { font-weight: 700; color: #1C3D5A; }
+    .td-muted { color: #9CA3AF; }
+
+    /* ── AB CARDS ───────────────────────────────────────────── */
+    .ab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .ab-card {
+      background: #F5F7FA;
+      border-radius: 10px;
+      padding: 22px 24px;
+      border: 1.5px solid #E2E8F0;
+      position: relative;
+    }
+    .ab-card.leader {
+      background: #EBF3FA;
+      border-color: #1C3D5A;
+    }
+    .ab-leader-tag {
+      position: absolute;
+      top: -1px;
+      right: 14px;
+      background: #1C3D5A;
+      color: white;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 0 0 6px 6px;
+    }
+    .ab-card .ab-path-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 14px;
+    }
+    .ab-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ab-metric .abm-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #718096;
+      margin-bottom: 2px;
+    }
+    .ab-metric .abm-value {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1A1A1A;
+      letter-spacing: -0.02em;
+    }
+    .ab-metric .abm-value.green { color: #2E7D32; }
+    .ab-metric .abm-value.blue { color: #1C3D5A; }
+
+    .ab-sample-card {
+      background: #F5F7FA;
+      border-radius: 10px;
+      padding: 22px 24px;
+      border: 1.5px solid #E2E8F0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .ab-sample-card .lane-tag {
+      background: #EBF3FA;
+      border: 1.5px solid #BDD3E8;
+      border-radius: 8px;
+      padding: 10px 16px;
+      text-align: center;
+      min-width: 120px;
+    }
+    .lane-tag .lt-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1C3D5A;
+      margin-bottom: 4px;
+    }
+    .lane-tag .lt-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+    .ab-sample-metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    /* ── RECO LIST ──────────────────────────────────────────── */
+    .reco-list {
+      list-style: none;
+      padding: 0;
+    }
+    .reco-list li {
+      background: white;
+      border-left: 3px solid #1C3D5A;
+      border-radius: 0 6px 6px 0;
+      padding: 14px 20px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #1A1A1A;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .reco-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1C3D5A;
+      background: #EBF3FA;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .reco-list li strong { color: #1C3D5A; }
+
+    /* ── OVERALL TAKE ───────────────────────────────────────── */
+    .overall-take {
+      background: #F7F9FC;
+      border-radius: 8px;
+      padding: 22px 26px;
+      border-top: 3px solid #1C3D5A;
+      margin-top: 28px;
+    }
+    .overall-take .ot-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #1C3D5A;
+      margin-bottom: 8px;
+    }
+    .overall-take p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #2D3748;
+    }
+
+    /* ── FLOW STRUCTURE ─────────────────────────────────────── */
+    .flow-structure {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      padding: 20px 24px;
+      background: #F5F7FA;
+      border-radius: 8px;
+    }
+    .flow-node {
+      background: white;
+      border: 1.5px solid #BDD3E8;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1C3D5A;
+    }
+    .flow-arrow {
+      color: #CBD5E0;
+      font-size: 16px;
+      font-weight: 300;
+    }
+    .flow-structure-two-lane {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .lane-card {
+      background: #F5F7FA;
+      border-radius: 8px;
+      padding: 18px 22px;
+      border: 1.5px solid #E2E8F0;
+    }
+    .lane-card .lane-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #718096;
+      margin-bottom: 6px;
+    }
+    .lane-card .lane-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 6px;
+    }
+    .lane-card .lane-desc {
+      font-size: 13px;
+      color: #4A5568;
+    }
+
+    /* ── NEXT STEPS FOOTER ──────────────────────────────────── */
+    .next-steps-section {
+      background: #1C3D5A;
+      padding: 60px 0 52px;
+    }
+    .next-steps-section .section-title {
+      color: white;
+      margin-bottom: 32px;
+    }
+    .next-steps-section .section-eyebrow {
+      color: rgba(255,255,255,0.38);
+    }
+    .next-steps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+    .ns-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 20px 24px;
+    }
+    .ns-card .ns-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 8px;
+    }
+    .ns-card .ns-action {
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 5px;
+      line-height: 1.35;
+    }
+    .ns-card .ns-timing {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .ns-timing-now { color: #6EE7B7; }
+    .ns-timing-soon { color: rgba(255,255,255,0.45); }
+    .ns-timing-upcoming { color: rgba(255,255,255,0.38); }
+
+    .closing-line {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-style: italic;
+    }
+
+    /* ── PRINT ──────────────────────────────────────────────── */
+    @media print {
+      body { font-size: 12px; background: white; }
+      .report-header, .next-steps-section, .hero-stat-block, .star-card {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+      }
+      .container { padding: 0 28px; max-width: 100%; }
+      .report-header { padding: 32px 0 28px; }
+      .report-section { padding: 40px 0 32px; }
+      .next-steps-section { padding: 40px 0 32px; }
+      .hero-number { font-size: 44px; }
+      .hero-stat-block { padding: 26px 32px; gap: 28px; }
+      .star-card .sc-grid { grid-template-columns: repeat(4, 1fr); }
+      @page { margin: 1.2cm 1.5cm; }
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 800px) {
+      .comparison-grid,
+      .cards-grid-2,
+      .cards-grid-3,
+      .ab-grid,
+      .next-steps-grid,
+      .flow-structure-two-lane { grid-template-columns: 1fr; }
+      .hero-stat-block { flex-direction: column; gap: 20px; text-align: center; }
+      .hero-divider { width: 60px; height: 1px; }
+      .hero-number { font-size: 48px; }
+      .star-card .sc-grid { grid-template-columns: 1fr 1fr; }
+      .ab-sample-card { grid-template-columns: 1fr; }
+      .ab-sample-metrics { grid-template-columns: 1fr 1fr; }
+      .report-header .container { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .header-meta { text-align: left; }
+      .container { padding: 0 20px; }
+      .data-table { font-size: 12px; }
+      .data-table td, .data-table thead th { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+<header class="report-header">
+  <div class="container">
+    <div>
+      <div class="header-agency">DigitsUp — Retention &amp; Lifecycle Marketing</div>
+      <h1 class="header-title">Riversol x DigitsUp<br>Flow Performance Review</h1>
+      <div class="header-subtitle">Q2 2026 &nbsp;|&nbsp; Automation Strategy Update</div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-label">Prepared</div>
+      <div class="meta-date">June 24, 2026</div>
+      <div class="meta-scope">4 Active Flows Reviewed</div>
+    </div>
+  </div>
+</header>
+<div class="accent-bar"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 01 — Sample Journey
+══════════════════════════════════════════════════════════ -->
+<section class="report-section">
+  <div class="container">
+    <div class="section-eyebrow">01</div>
+    <h2 class="section-title">Sample Journey — Converting Free Trial to First Purchase</h2>
+    <p class="section-intro">Riversol's sample program is a top-of-funnel driver — customers receive a free trial kit and the post-delivery flow is their first real relationship with the brand. We rebuilt the journey from the ground up to create earlier urgency, introduce product-specific framing, and surface the right offer at the right time.</p>
+
+    <!-- Comparison Cards -->
+    <div class="sub-heading">Side-by-Side Comparison &nbsp;|&nbsp; May 11 – June 24, 2026</div>
+    <div class="comparison-grid">
+      <div class="cmp-card">
+        <div class="cmp-tag">Previous</div>
+        <div class="cmp-name">Old Flow (2025 V2)</div>
+        <div class="cmp-stats">
+          <div>
+            <div class="cmp-stat-label">Recipients</div>
+            <div class="cmp-stat-value">74,852</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Conversions</div>
+            <div class="cmp-stat-value">234</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Conversion Rate</div>
+            <div class="cmp-stat-value">0.31%</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Emails in Flow</div>
+            <div class="cmp-stat-value">~9</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Avg. Open Rate</div>
+            <div class="cmp-stat-value">~45%</div>
+          </div>
+        </div>
+      </div>
+      <div class="cmp-card active">
+        <div class="cmp-tag">Current</div>
+        <div class="cmp-name">New Flow (15-Day Structure)</div>
+        <div class="cmp-stats">
+          <div>
+            <div class="cmp-stat-label">Recipients</div>
+            <div class="cmp-stat-value highlight">60,217</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Conversions</div>
+            <div class="cmp-stat-value highlight">177</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Conversion Rate</div>
+            <div class="cmp-stat-value highlight">0.29%</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Emails in Flow</div>
+            <div class="cmp-stat-value highlight">15+</div>
+          </div>
+          <div>
+            <div class="cmp-stat-label">Avg. Open Rate</div>
+            <div class="cmp-stat-value highlight">~47%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- High-Intent Branch — Star Callout -->
+    <div class="sub-heading">High-Intent Branch — Behavioral Targeting</div>
+    <div class="star-card">
+      <div class="sc-eyebrow">The Star of the New Flow</div>
+      <div class="sc-title">When a recipient clicks a product link, they enter a tailored follow-up sequence — and the results are 3–6x the performance of standard emails.</div>
+      <div class="sc-grid">
+        <div>
+          <div class="sc-stat-label">Trio + Peel (R) — RPU</div>
+          <div class="sc-stat-value">$0.89</div>
+          <div class="sc-stat-note">7.3% click rate</div>
+        </div>
+        <div>
+          <div class="sc-stat-label">Continue Your Results (R) — RPU</div>
+          <div class="sc-stat-value">$1.19</div>
+          <div class="sc-stat-note">Highest RPU in flow</div>
+        </div>
+        <div>
+          <div class="sc-stat-label">vs. Standard Email RPU</div>
+          <div class="sc-stat-value">~$0.20</div>
+          <div class="sc-stat-note">Baseline for comparison</div>
+        </div>
+        <div>
+          <div class="sc-stat-label">Performance Uplift</div>
+          <div class="sc-stat-value">3–6x</div>
+          <div class="sc-stat-note">RPU over standard</div>
+        </div>
+      </div>
+      <div class="sc-note">Behavioral branching is working. The product-specific lanes reward intent and close the gap between engagement and purchase.</div>
+    </div>
+
+    <!-- What's Working -->
+    <div class="sub-heading">What's Working</div>
+    <div class="cards-grid-2" style="gap: 14px;">
+      <div class="working-card">
+        <div class="wc-title">"Your Kit Has Arrived" — Day 15</div>
+        <div class="wc-desc">The earliest brand touchpoint in the new flow is landing. Highest open rate in the entire sequence.</div>
+        <div class="wc-chips">
+          <span class="chip-green">58.1% Open Rate</span>
+          <span class="chip-blue">Highest in Flow</span>
+        </div>
+      </div>
+      <div class="working-card">
+        <div class="wc-title">"Consistency Beats Complexity" — Day 21</div>
+        <div class="wc-desc">Strong open and click performance with 31 conversions at $0.21 RPU across 7,243 recipients.</div>
+        <div class="wc-chips">
+          <span class="chip-green">50.5% Open</span>
+          <span class="chip-green">3.5% Click</span>
+          <span class="chip-green">$0.21 RPU</span>
+        </div>
+      </div>
+      <div class="working-card">
+        <div class="wc-title">"Trial Almost Complete — Trio + Peel" — Day 27</div>
+        <div class="wc-desc">Best-converting standard email in the flow — 34 conversions from 5,764 recipients.</div>
+        <div class="wc-chips">
+          <span class="chip-green">52.7% Open</span>
+          <span class="chip-green">5.7% Click</span>
+          <span class="chip-green">$0.20 RPU</span>
+        </div>
+      </div>
+      <div class="working-card">
+        <div class="wc-title">"Singles Starting at $18" — Day 30</div>
+        <div class="wc-desc">Entry-level product framing is generating real conversions — 17 from 4,062 recipients. The lower price point is working for this audience.</div>
+        <div class="wc-chips">
+          <span class="chip-green">43.4% Open</span>
+          <span class="chip-green">3.5% Click</span>
+          <span class="chip-green">$0.28 RPU</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optimizing -->
+    <div class="sub-heading">What We're Optimizing</div>
+    <div class="cards-grid-2" style="gap: 14px;">
+      <div class="optimizing-card">
+        <div class="oc-title">"Not Sure What's Right" — Day 40</div>
+        <div class="oc-desc">Late-stage emails are losing momentum at 1.0% click and $0.05 RPU. Watching for patterns and evaluating angle refresh.</div>
+      </div>
+      <div class="optimizing-card">
+        <div class="oc-title">Product-Specific Day 30 Emails (Concentrate, Lightweight Lotion)</div>
+        <div class="oc-desc">Zero conversions at this point — the angle may need adjustment. Monitoring as volume builds.</div>
+      </div>
+    </div>
+
+    <div class="callout-insight" style="margin-top: 20px;">
+      <div class="ci-label">Learning Applied</div>
+      <div class="ci-text">The old flow's Email #4 (30% off) remains its strongest discount email at $0.52 RPU and 6.1% click rate. We're applying this offer sequencing insight directly to the new flow's discount timing strategy.</div>
+    </div>
+
+    <!-- Overall Take -->
+    <div class="overall-take">
+      <div class="ot-label">Overall Assessment</div>
+      <p>The new flow is performing at parity with the old flow in conversion rate (0.29% vs. 0.31%) with significantly more structural sophistication — product-specific lanes, high-intent behavioral branching, and earlier engagement. The behavioral branches are outperforming general emails by 3–6x on RPU. As volume builds through the new flow's longer structure, we expect the gap to widen in its favor.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 02 — Review Follow-up
+══════════════════════════════════════════════════════════ -->
+<section class="report-section">
+  <div class="container">
+    <div class="section-eyebrow">02</div>
+    <h2 class="section-title">Review Follow-up — Turning 5-Star Reviews Into Revenue</h2>
+    <p class="section-intro">When a customer leaves a 5-star review, they're at peak satisfaction — the perfect moment to deepen the relationship. We built this flow to capitalize on that signal and drive a second purchase or a first paid order from sample reviewers.</p>
+
+    <!-- Flow Structure -->
+    <div class="sub-heading">Flow Structure</div>
+    <div class="flow-structure-two-lane">
+      <div class="lane-card">
+        <div class="lane-label">Sample Lane</div>
+        <div class="lane-name">5-Star Review on Sample Order</div>
+        <div class="lane-desc">Triggers a welcome offer — 20% off first purchase. Converts free trial reviewers into paying customers.</div>
+      </div>
+      <div class="lane-card">
+        <div class="lane-label">Return Customer Lane — 3-Way A/B Test</div>
+        <div class="lane-name">Post-Review Revenue Optimization</div>
+        <div class="lane-desc">
+          <strong>Path A:</strong> 15% off + free shipping ($69+)<br>
+          <strong>Path B:</strong> Educational content (no discount)<br>
+          <strong>Path C:</strong> 10% off ($49+)
+        </div>
+      </div>
+    </div>
+
+    <!-- A/B Performance -->
+    <div class="sub-heading">A/B Performance — Last 30 Days</div>
+
+    <div class="ab-grid">
+      <div class="ab-card leader">
+        <div class="ab-leader-tag">Early Leader</div>
+        <div class="ab-path-name">Path A — 15% Off + Free Shipping ($69+)</div>
+        <div class="ab-metrics">
+          <div class="ab-metric">
+            <div class="abm-label">Recipients</div>
+            <div class="abm-value">8</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Open Rate</div>
+            <div class="abm-value green">100%</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Click Rate</div>
+            <div class="abm-value green">25.0%</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Conversions</div>
+            <div class="abm-value green">2</div>
+          </div>
+          <div class="ab-metric" style="grid-column: span 2;">
+            <div class="abm-label">Revenue Per Recipient</div>
+            <div class="abm-value blue" style="font-size: 26px;">$16.40</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-card">
+        <div class="ab-path-name">Path B — Educational (No Discount)</div>
+        <div class="ab-metrics">
+          <div class="ab-metric">
+            <div class="abm-label">Recipients</div>
+            <div class="abm-value">9</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Open Rate</div>
+            <div class="abm-value">66.7%</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Click Rate</div>
+            <div class="abm-value">11.1%</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Conversions</div>
+            <div class="abm-value">0</div>
+          </div>
+          <div class="ab-metric" style="grid-column: span 2;">
+            <div class="abm-label">Revenue Per Recipient</div>
+            <div class="abm-value">$0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-card">
+        <div class="ab-path-name">Path C — 10% Off ($49+)</div>
+        <div class="ab-metrics">
+          <div class="ab-metric">
+            <div class="abm-label">Recipients</div>
+            <div class="abm-value">5</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Open Rate</div>
+            <div class="abm-value">100%</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Click Rate</div>
+            <div class="abm-value">0%</div>
+          </div>
+          <div class="ab-metric">
+            <div class="abm-label">Conversions</div>
+            <div class="abm-value">0</div>
+          </div>
+          <div class="ab-metric" style="grid-column: span 2;">
+            <div class="abm-label">Revenue Per Recipient</div>
+            <div class="abm-value">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sample Lane Row -->
+    <div class="ab-sample-card" style="margin-bottom: 28px;">
+      <div class="lane-tag">
+        <div class="lt-label">Sample Lane</div>
+        <div class="lt-name">20% Welcome Offer</div>
+      </div>
+      <div class="ab-sample-metrics">
+        <div>
+          <div class="abm-label" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#718096;margin-bottom:2px;">Recipients</div>
+          <div style="font-size:20px;font-weight:800;color:#1A1A1A;letter-spacing:-0.02em;">33</div>
+        </div>
+        <div>
+          <div class="abm-label" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#718096;margin-bottom:2px;">Open Rate</div>
+          <div style="font-size:20px;font-weight:800;color:#2E7D32;letter-spacing:-0.02em;">78.8%</div>
+        </div>
+        <div>
+          <div class="abm-label" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#718096;margin-bottom:2px;">Click Rate</div>
+          <div style="font-size:20px;font-weight:800;color:#1A1A1A;letter-spacing:-0.02em;">15.2%</div>
+        </div>
+        <div>
+          <div class="abm-label" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#718096;margin-bottom:2px;">Conversions</div>
+          <div style="font-size:20px;font-weight:800;color:#1A1A1A;letter-spacing:-0.02em;">1</div>
+        </div>
+        <div>
+          <div class="abm-label" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#718096;margin-bottom:2px;">RPU</div>
+          <div style="font-size:20px;font-weight:800;color:#1C3D5A;letter-spacing:-0.02em;">$3.86</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout-insight">
+      <div class="ci-label">Early Signals</div>
+      <div class="ci-text">This flow only triggers on 5-star reviews — volume is intentionally limited. Path A is showing exactly the directional signal we hoped to see: highest click rate, only path generating conversions, $16.40 RPU. Both offer paths are achieving 100% open rates. Reviewers are highly engaged and Path A is capitalizing on that.</div>
+    </div>
+
+    <!-- What's Working -->
+    <div class="sub-heading">What's Working</div>
+    <div class="cards-grid-2" style="gap:14px;">
+      <div class="working-card">
+        <div class="wc-title">Path A is the Clear A/B Leader</div>
+        <div class="wc-desc">Highest click rate of all three paths, the only path generating conversions, and $16.40 RPU. The 15% + free shipping threshold is the most effective offer for this audience.</div>
+        <div class="wc-chips"><span class="chip-green">$16.40 RPU</span><span class="chip-green">25% Click Rate</span></div>
+      </div>
+      <div class="working-card">
+        <div class="wc-title">Sample Lane — Solid Engagement</div>
+        <div class="wc-desc">78.8% open rate on the welcome offer email demonstrates that sample reviewers are primed and ready. Early revenue signal is positive at $3.86 RPU.</div>
+        <div class="wc-chips"><span class="chip-green">78.8% Open</span><span class="chip-green">$3.86 RPU</span></div>
+      </div>
+    </div>
+
+    <!-- What's Next -->
+    <div class="sub-heading">What's Next</div>
+    <ul class="reco-list">
+      <li><div class="reco-num">1</div><div><strong>Expand to 4-star reviewers</strong> — more volume, still high intent. This is the fastest path to statistically meaningful A/B data.</div></li>
+      <li><div class="reco-num">2</div><div><strong>Build a 1–3 star response path</strong> — trigger customer support outreach or a make-good offer. Turn detractors into retained customers.</div></li>
+      <li><div class="reco-num">3</div><div><strong>Continue monitoring Path A as the leader</strong> — the signal is early but clear. We'll let volume accumulate before calling it, but the current data is exactly where we want to be.</div></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 03 — Winback Samplers
+══════════════════════════════════════════════════════════ -->
+<section class="report-section">
+  <div class="container">
+    <div class="section-eyebrow">03</div>
+    <h2 class="section-title">Winback Samplers — Re-Engaging the Free Trial Audience</h2>
+    <p class="section-intro">This flow catches sample customers who completed the post-delivery journey but haven't placed a paid order. It's a high-volume audience — and getting the offer right is everything.</p>
+
+    <!-- Flow Structure -->
+    <div class="sub-heading">Flow Structure</div>
+    <div class="flow-structure">
+      <div class="flow-node">Email 1<br><span style="font-size:11px;font-weight:500;color:#4A5568;">20% Welcome Offer</span></div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-node">Email 2<br><span style="font-size:11px;font-weight:500;color:#4A5568;">Bundle Math (US + CA)</span></div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-node">Email 3<br><span style="font-size:11px;font-weight:500;color:#4A5568;">Customer Story</span></div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-node">Email 4<br><span style="font-size:11px;font-weight:500;color:#4A5568;">30% Offer Upgrade</span></div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="sub-heading">Email Performance — Last 30 Days</div>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Recipients</th>
+            <th>Open Rate</th>
+            <th>Click Rate</th>
+            <th>Conversions</th>
+            <th>RPU</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Email 1 — Welcome Offer 20%</td>
+            <td>8,896</td>
+            <td>39.2%</td>
+            <td class="td-amber">1.0%</td>
+            <td>9</td>
+            <td class="td-amber">$0.02</td>
+          </tr>
+          <tr class="row-highlight">
+            <td><strong>Email 2 — Bundle Math (CAD)</strong></td>
+            <td>2,042</td>
+            <td>42.9%</td>
+            <td>1.4%</td>
+            <td>3</td>
+            <td class="td-green"><strong>$0.27</strong></td>
+          </tr>
+          <tr>
+            <td>Email 2 — Bundle Math (USD)</td>
+            <td>3,794</td>
+            <td>36.4%</td>
+            <td>0.7%</td>
+            <td>1</td>
+            <td>$0.05</td>
+          </tr>
+          <tr>
+            <td>Email 3 — Customer Story</td>
+            <td>2,819</td>
+            <td>33.9%</td>
+            <td>0.6%</td>
+            <td>0</td>
+            <td class="td-muted">—</td>
+          </tr>
+          <tr class="row-total">
+            <td>Total</td>
+            <td>17,559</td>
+            <td class="td-muted">—</td>
+            <td class="td-muted">—</td>
+            <td>13</td>
+            <td class="td-muted">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Key Insight -->
+    <div class="callout-insight">
+      <div class="ci-label">Key Insight</div>
+      <div class="ci-text">The CAD Bundle Math email is outperforming the main discount email — <strong>$0.27 RPU vs. $0.02</strong>. This tells us pricing context and value framing work better for this audience than a straight percentage off. We're applying this learning directly.</div>
+    </div>
+
+    <!-- What We Identified -->
+    <div class="optimizing-card" style="margin-bottom: 20px;">
+      <div class="oc-title">What We Identified</div>
+      <div class="oc-desc">The 20% welcome offer isn't resonating with this audience — they've been exposed to 30–40% discounts earlier in their journey. The data confirms it: 1.0% click rate and $0.02 RPU on the main offer email. The opportunity is clear, and the fix is already in motion.</div>
+    </div>
+
+    <!-- Action This Week -->
+    <div class="callout-action">
+      <div class="ca-label">Action This Week</div>
+      <div class="ca-text"><strong>Upgrading Email 1 to 30% off as the opening offer.</strong> This change is being implemented this week. We identified the gap between this audience's discount expectations and the current offer — the fix addresses it directly.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 04 — Winback Return Customers
+══════════════════════════════════════════════════════════ -->
+<section class="report-section">
+  <div class="container">
+    <div class="section-eyebrow">04</div>
+    <h2 class="section-title">Winback Return Customers — Reactivating Your Best People</h2>
+    <p class="section-intro">This flow targets customers who haven't purchased in 90+ days — including loyal multi-order customers who were missed by the old system entirely. The old winback only reached one-time buyers. This one reaches everyone.</p>
+
+    <!-- Hero Stat -->
+    <div class="hero-stat-block">
+      <div class="hero-number">$1.50</div>
+      <div class="hero-divider"></div>
+      <div class="hero-text">
+        <div class="hero-label">Revenue Per Recipient</div>
+        <div class="hero-headline">75x improvement over the previous winback flow</div>
+        <div class="hero-vs">vs. $0.02 RPU on the previous flow</div>
+      </div>
+    </div>
+
+    <!-- Flow Structure -->
+    <div class="sub-heading">Flow Structure — 16-Day, 4 Lanes</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;">
+      <div class="lane-card">
+        <div class="lane-label">Lanes</div>
+        <div class="lane-name">US with Points &nbsp;/&nbsp; CA with Points<br>US No Points &nbsp;/&nbsp; CA No Points</div>
+      </div>
+      <div class="lane-card">
+        <div class="lane-label">Structure</div>
+        <div class="lane-name">Email 1 — Personalized winback (15% off, $69+, free shipping). Points holders see current balance.</div>
+        <div class="lane-desc" style="margin-top:6px;">Email 2 — Seasonal content &nbsp;|&nbsp; Email 3 — Last call</div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="sub-heading">Lane Performance — Last 30 Days</div>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Lane / Email</th>
+            <th>Recipients</th>
+            <th>Open Rate</th>
+            <th>Click Rate</th>
+            <th>Conversions</th>
+            <th>RPU</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-highlight">
+            <td><strong>15% + Points (CA)</strong></td>
+            <td>1,279</td>
+            <td class="td-green"><strong>67.0%</strong></td>
+            <td>7.6%</td>
+            <td>23</td>
+            <td class="td-strong">$1.39</td>
+          </tr>
+          <tr class="row-highlight">
+            <td><strong>15% + Points (US)</strong></td>
+            <td>394</td>
+            <td>51.9%</td>
+            <td>6.9%</td>
+            <td>15</td>
+            <td class="td-green"><strong>$3.21</strong></td>
+          </tr>
+          <tr>
+            <td>Seasonal Content — Points (CA)</td>
+            <td>667</td>
+            <td>56.8%</td>
+            <td>1.6%</td>
+            <td>4</td>
+            <td>$0.54</td>
+          </tr>
+          <tr>
+            <td>15% Off CA — No Points</td>
+            <td>668</td>
+            <td>56.5%</td>
+            <td>5.1%</td>
+            <td>3</td>
+            <td>$0.25</td>
+          </tr>
+          <tr>
+            <td>15% Off US — No Points</td>
+            <td>235</td>
+            <td>47.2%</td>
+            <td>3.4%</td>
+            <td>0</td>
+            <td class="td-muted">—</td>
+          </tr>
+          <tr>
+            <td>Seasonal Content (CA)</td>
+            <td>328</td>
+            <td>47.0%</td>
+            <td>0.9%</td>
+            <td>0</td>
+            <td class="td-muted">—</td>
+          </tr>
+          <tr>
+            <td>Last Call Emails</td>
+            <td>~111</td>
+            <td>~35%</td>
+            <td class="td-muted">Accumulating</td>
+            <td>0</td>
+            <td class="td-muted">—</td>
+          </tr>
+          <tr class="row-total">
+            <td>Total</td>
+            <td>4,052</td>
+            <td class="td-muted">—</td>
+            <td class="td-muted">—</td>
+            <td><strong>45</strong></td>
+            <td class="td-muted">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Key Insight -->
+    <div class="callout-insight">
+      <div class="ci-label">Key Insight</div>
+      <div class="ci-text">The points reminder is the engine. Emails that include the customer's Smile points balance account for <strong>84% of all conversions</strong> in this flow. The loyalty program is a powerful activation lever — and we're using it.</div>
+    </div>
+
+    <!-- What's Working -->
+    <div class="sub-heading">What's Working</div>
+    <div class="cards-grid-3" style="gap:14px;">
+      <div class="working-card">
+        <div class="wc-title">CA Points Email — 67% Open Rate</div>
+        <div class="wc-desc">Exceptional for a winback flow. Points-aware messaging cuts through inbox fatigue. 23 conversions from 1,279 recipients.</div>
+        <div class="wc-chips"><span class="chip-green">67.0% Open</span><span class="chip-green">$1.39 RPU</span></div>
+      </div>
+      <div class="working-card">
+        <div class="wc-title">US Points Email — Best Revenue Efficiency</div>
+        <div class="wc-desc">$3.21 RPU is the best revenue efficiency in the entire flow. US customers with loyalty points are the highest-value segment to reach.</div>
+        <div class="wc-chips"><span class="chip-green">$3.21 RPU</span><span class="chip-green">6.9% Click</span></div>
+      </div>
+      <div class="working-card">
+        <div class="wc-title">Offer + Points = Winning Formula</div>
+        <div class="wc-desc">The combination of a threshold discount and a personalized points balance reminder is consistently outperforming any single-factor email in the flow.</div>
+        <div class="wc-chips"><span class="chip-green">84% of Conversions</span></div>
+      </div>
+    </div>
+
+    <!-- What We're Optimizing -->
+    <div class="sub-heading">What We're Optimizing</div>
+    <div class="cards-grid-2" style="gap:14px;">
+      <div class="optimizing-card">
+        <div class="oc-title">Seasonal Email (Email 2) — Content Refresh Needed</div>
+        <div class="oc-desc">Currently summer/sunscreen themed. Low conversion rate signals the content angle is working against urgency. Refreshing for fall/winter by August.</div>
+      </div>
+      <div class="optimizing-card">
+        <div class="oc-title">No-Points Lanes — Offer Angle Under Review</div>
+        <div class="oc-desc">Getting clicks but not converting at the same rate as points lanes. Next test: alternate offer framing for customers without a loyalty balance.</div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="sub-heading">What's Next — Recommendations</div>
+    <ul class="reco-list">
+      <li><div class="reco-num">1</div><div><strong>Split test flow length: 16 days vs. 30 days.</strong> Give late-stage customers more time in the sequence before suppression. Proposing this today.</div></li>
+      <li><div class="reco-num">2</div><div><strong>Build a sunset flow.</strong> For customers who don't convert through winback — a final re-engagement before suppression to maximize list health and lifetime recoveries.</div></li>
+      <li><div class="reco-num">3</div><div><strong>Seasonal Email 2 refresh for fall/winter.</strong> Update content by August to maintain conversion momentum through Q3 and Q4.</div></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER — NEXT STEPS
+══════════════════════════════════════════════════════════ -->
+<footer class="next-steps-section">
+  <div class="container">
+    <div class="section-eyebrow">What's Happening Next</div>
+    <h2 class="section-title">Actions Coming Out of Today</h2>
+
+    <div class="next-steps-grid">
+      <div class="ns-card">
+        <div class="ns-num">Action 01</div>
+        <div class="ns-action">Winback Samplers: upgrade Email 1 to 30% off</div>
+        <div class="ns-timing ns-timing-now">This Week</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">Action 02</div>
+        <div class="ns-action">Review Follow-up: expand trigger to 4-star reviewers</div>
+        <div class="ns-timing ns-timing-soon">Upcoming</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">Action 03</div>
+        <div class="ns-action">Winback Return: split test flow length — 16 days vs. 30 days</div>
+        <div class="ns-timing ns-timing-now">Proposing Today</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">Action 04</div>
+        <div class="ns-action">Replenishment Flow: design review on this call — build phase next</div>
+        <div class="ns-timing ns-timing-now">On This Call</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">Action 05</div>
+        <div class="ns-action">Sunset Flow: roadmap item post-winback optimization</div>
+        <div class="ns-timing ns-timing-upcoming">Roadmap</div>
+      </div>
+    </div>
+
+    <div class="closing-line">DigitsUp — lifecycle strategy and automation for Riversol since 2026.</div>
+  </div>
+</footer>
+
+</body>
+</html>
